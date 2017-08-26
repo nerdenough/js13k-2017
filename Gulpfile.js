@@ -4,9 +4,16 @@ const concat = require('gulp-concat')
 const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-uglify')
 
+const files = [
+  'src/game.js',
+  'src/utils/*.js',
+  'src/entities/*.js',
+  'src/world/*.js'
+]
+
 gulp.task('transpile', () => {
   return gulp
-    .src('src/**/*.js')
+    .src(files)
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['env']
