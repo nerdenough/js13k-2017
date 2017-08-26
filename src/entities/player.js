@@ -7,5 +7,5 @@ $.Player.prototype.update = function (dt) {
 
 $.Player.prototype.render = function () {
   $.ctx.fillStyle = 'black'
-  $.ctx.fillRect(this.x, this.y, 32, 48)
+  $.ctx.fillRect(this.x - 16, this.y - 48, 32, 48)
 }

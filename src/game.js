@@ -7,13 +7,14 @@ $.previousTimestamp = 0
 $.tileSize = 64
 $.tiles = []
 $.trees = []
+$.entities = []
 
 $.init = function () {
   $.canvas.width = $.width
   $.canvas.height = $.height
 
   // Initialise player
-  $.player = new $.Player($.width / 2 - 16, $.height / 2 - 24)
+  $.player = new $.Player($.width / 2, $.height / 2 + 24)
 
   // Initialise tiles
   for (let i = 0; i < 100; i++) {
@@ -23,15 +24,17 @@ $.init = function () {
   }
 
   // Initialise trees
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 50; i++) {
     $.trees.push(new $.Tree(Math.random() * $.width, Math.random() * $.height))
   }
+
+  $.entities = $.trees.concat($.player)
+  console.log('entities', $.entities)
 }
 
 $.update = function (dt) {
   $.tiles.forEach(tile => tile.update(dt))
 
-  $.trees.sort((a, b) => a.y - b.y)
   $.trees.forEach(tree => tree.update(dt))
   $.player.update(dt)
 }
@@ -39,8 +42,9 @@ $.update = function (dt) {
 $.render = function () {
   $.ctx.clearRect(0, 0, $.width, $.height)
   $.tiles.forEach(tile => tile.render())
-  $.trees.forEach(tree => tree.render())
-  $.player.render()
+
+  $.entities.sort((a, b) => a.y - b.y)
+  $.entities.forEach(entity => entity.render())
 }
 
 $.loop = function (timestamp) {
