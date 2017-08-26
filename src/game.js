@@ -17,10 +17,12 @@ $.Tile.prototype.update = function (dt) {
 }
 
 $.Tile.prototype.render = function () {
-  $.ctx.strokeStyle = 'red'
-  $.ctx.fillStyle = 'green'
-  $.ctx.fillRect(this.x * $.tileSize, this.y * $.tileSize, $.tileSize, $.tileSize)
-  $.ctx.strokeRect(this.x * $.tileSize, this.y * $.tileSize, $.tileSize, $.tileSize)
+  if (this.x + $.tileSize > 0 && this.y + $.tileSize > 0 && this.x < $.width && this.y < $.height) {
+    $.ctx.strokeStyle = 'red'
+    $.ctx.fillStyle = 'green'
+    $.ctx.fillRect(this.x, this.y, $.tileSize, $.tileSize)
+    $.ctx.strokeRect(this.x, this.y, $.tileSize, $.tileSize)
+  }
 }
 
 // Main Game
@@ -31,12 +33,13 @@ $.init = function () {
   // Initialise tiles
   for (let i = 0; i < 100; i++) {
     for (let j = 0; j < 100; j++) {
-      $.tiles.push(new $.Tile(i, j))
+      $.tiles.push(new $.Tile(i * $.tileSize, j * $.tileSize))
     }
   }
 }
 
 $.update = function (dt) {
+  $.tiles.forEach(tile => tile.update(dt))
 }
 
 $.render = function () {
