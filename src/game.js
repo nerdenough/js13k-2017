@@ -45,6 +45,11 @@ $.render = function () {
 
   $.entities.sort((a, b) => a.y - b.y)
   $.entities.forEach(entity => entity.render())
+
+  $.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
+  $.ctx.strokeStyle = 'rgba(0, 0, 0, 0.2'
+  $.ctx.fillRect($.player.x - 16, $.player.y - 48, 32, 48)
+  $.ctx.strokeRect($.player.x - 16, $.player.y - 48, 32, 48)
 }
 
 $.loop = function (timestamp) {
