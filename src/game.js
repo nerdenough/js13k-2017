@@ -6,6 +6,7 @@ $.ctx = $.canvas.getContext('2d')
 $.previousTimestamp = 0
 $.tileSize = 64
 $.tiles = []
+$.trees = []
 
 $.keys = {
   up: false,
@@ -21,23 +22,33 @@ $.Player = function (x, y) {
 }
 
 $.Player.prototype.update = function (dt) {
-  if ($.keys.up) {
-    this.y -= dt
-  }
-  if ($.keys.down) {
-    this.y += dt
-  }
-  if ($.keys.left) {
-    this.x -= dt
-  }
-  if ($.keys.right) {
-    this.x += dt
-  }
 }
 
 $.Player.prototype.render = function () {
-  $.ctx.fillStyle = 'blue'
+  $.ctx.fillStyle = 'black'
   $.ctx.fillRect(this.x, this.y, 32, 48)
+}
+
+// Tree
+$.Tree = function (x, y) {
+  this.x = x
+  this.y = y
+}
+
+$.Tree.prototype.update = function (dt) {
+}
+
+$.Tree.prototype.render = function () {
+  $.ctx.fillStyle = '#5F9C30'
+  $.ctx.strokeStyle = '#4F8A22'
+  $.ctx.beginPath()
+  $.ctx.moveTo(this.x, this.y)
+  $.ctx.lineTo(this.x - 64, this.y)
+  $.ctx.lineTo(this.x, this.y - 256)
+  $.ctx.lineTo(this.x + 64, this.y)
+  $.ctx.lineTo(this.x, this.y)
+  $.ctx.fill()
+  $.ctx.stroke()
 }
 
 // Tiles
@@ -47,12 +58,24 @@ $.Tile = function (x, y) {
 }
 
 $.Tile.prototype.update = function (dt) {
+  if ($.keys.up) {
+    this.y += dt
+  }
+  if ($.keys.down) {
+    this.y -= dt
+  }
+  if ($.keys.left) {
+    this.x += dt
+  }
+  if ($.keys.right) {
+    this.x -= dt
+  }
 }
 
 $.Tile.prototype.render = function () {
   if (this.x + $.tileSize > 0 && this.y + $.tileSize > 0 && this.x < $.width && this.y < $.height) {
-    $.ctx.strokeStyle = 'red'
-    $.ctx.fillStyle = 'green'
+    $.ctx.strokeStyle = '#85BF58'
+    $.ctx.fillStyle = '#8EE04F'
     $.ctx.fillRect(this.x, this.y, $.tileSize, $.tileSize)
     $.ctx.strokeRect(this.x, this.y, $.tileSize, $.tileSize)
   }
@@ -72,16 +95,23 @@ $.init = function () {
       $.tiles.push(new $.Tile(i * $.tileSize, j * $.tileSize))
     }
   }
+
+  // Initialise trees
+  for (let i = 0; i < 10; i++) {
+    $.trees.push(new $.Tree(Math.random() * $.width, Math.random() * $.height))
+  }
 }
 
 $.update = function (dt) {
   $.tiles.forEach(tile => tile.update(dt))
+  $.trees.forEach(tree => tree.update(dt))
   $.player.update(dt)
 }
 
 $.render = function () {
   $.ctx.clearRect(0, 0, $.width, $.height)
   $.tiles.forEach(tile => tile.render())
+  $.trees.forEach(tree => tree.render())
   $.player.render()
 }
 
