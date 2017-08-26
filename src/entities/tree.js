@@ -3,6 +3,18 @@ $.Tree = function (x, y) {
 }
 
 $.Tree.prototype.update = function (dt) {
+  if ($.keys.up) {
+    this.y += dt
+  }
+  if ($.keys.down) {
+    this.y -= dt
+  }
+  if ($.keys.left) {
+    this.x += dt
+  }
+  if ($.keys.right) {
+    this.x -= dt
+  }
 }
 
 $.Tree.prototype.render = function () {
