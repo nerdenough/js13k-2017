@@ -40,7 +40,7 @@ $.Tree.prototype.update = function (dt) {
 
 $.Tree.prototype.render = function () {
   $.ctx.fillStyle = '#5F9C30'
-  $.ctx.strokeStyle = '#4F8A22'
+  $.ctx.strokeStyle = '#3B6E14'
   $.ctx.beginPath()
   $.ctx.moveTo(this.x, this.y)
   $.ctx.lineTo(this.x - 64, this.y)
@@ -97,13 +97,15 @@ $.init = function () {
   }
 
   // Initialise trees
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 100; i++) {
     $.trees.push(new $.Tree(Math.random() * $.width, Math.random() * $.height))
   }
 }
 
 $.update = function (dt) {
   $.tiles.forEach(tile => tile.update(dt))
+
+  $.trees.sort((a, b) => a.y - b.y)
   $.trees.forEach(tree => tree.update(dt))
   $.player.update(dt)
 }
