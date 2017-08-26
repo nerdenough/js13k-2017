@@ -7,6 +7,7 @@ $.previousTimestamp = 0
 $.tileSize = 64
 $.tiles = []
 $.trees = []
+$.rocks = []
 $.entities = []
 
 $.init = function () {
@@ -28,14 +29,19 @@ $.init = function () {
     $.trees.push(new $.Tree(Math.random() * $.width, Math.random() * $.height))
   }
 
-  $.entities = $.trees.concat($.player)
-  console.log('entities', $.entities)
+  // Initialise rocks
+  for (let i = 0; i < 50; i++) {
+    $.rocks.push(new $.Rock(Math.random() * $.width, Math.random() * $.height))
+  }
+
+  $.entities = [].concat([$.player], $.trees, $.rocks)
 }
 
 $.update = function (dt) {
   $.tiles.forEach(tile => tile.update(dt))
 
   $.trees.forEach(tree => tree.update(dt))
+  $.rocks.forEach(rock => rock.update(dt))
   $.player.update(dt)
 }
 
