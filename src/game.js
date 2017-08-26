@@ -7,6 +7,13 @@ $.previousTimestamp = 0
 $.tileSize = 64
 $.tiles = []
 
+$.keys = {
+  up: false,
+  down: false,
+  left: false,
+  right: false
+}
+
 // Player
 $.Player = function (x, y) {
   this.x = x
@@ -14,7 +21,18 @@ $.Player = function (x, y) {
 }
 
 $.Player.prototype.update = function (dt) {
-
+  if ($.keys.up) {
+    this.y -= dt
+  }
+  if ($.keys.down) {
+    this.y += dt
+  }
+  if ($.keys.left) {
+    this.x -= dt
+  }
+  if ($.keys.right) {
+    this.x += dt
+  }
 }
 
 $.Player.prototype.render = function () {
@@ -75,5 +93,33 @@ $.loop = function (timestamp) {
   window.requestAnimationFrame($.loop)
 }
 
+$.onKeyDown = function (e) {
+  const key = e.keyCode
+  if (key === 87 || key === 38) {
+    $.keys.up = true
+  } else if (key === 83 || key === 40) {
+    $.keys.down = true
+  } else if (key === 65 || key === 37) {
+    $.keys.left = true
+  } else if (key === 68 || key === 39) {
+    $.keys.right = true
+  }
+}
+
+$.onKeyUp = function (e) {
+  const key = e.keyCode
+  if (key === 87 || key === 38) {
+    $.keys.up = false
+  } else if (key === 83 || key === 40) {
+    $.keys.down = false
+  } else if (key === 65 || key === 37) {
+    $.keys.left = false
+  } else if (key === 68 || key === 39) {
+    $.keys.right = false
+  }
+}
+
 $.init()
 $.loop(0)
+window.addEventListener('keydown', $.onKeyDown)
+window.addEventListener('keyup', $.onKeyUp)
