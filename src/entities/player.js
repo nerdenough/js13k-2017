@@ -1,6 +1,5 @@
 $.Player = function (x, y) {
-  this.x = x
-  this.y = y
+  $.Entity.call(this, x, y)
 }
 
 $.Player.prototype.update = function (dt) {

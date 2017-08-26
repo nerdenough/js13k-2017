@@ -1,6 +1,5 @@
 $.Tree = function (x, y) {
-  this.x = x
-  this.y = y
+  $.Entity.call(this, x, y)
 }
 
 $.Tree.prototype.update = function (dt) {
